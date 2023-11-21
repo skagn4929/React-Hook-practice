@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Timer from "./component/Timer";
 
 // ----------*/ useState 연습 /*------
@@ -86,19 +86,91 @@ import Timer from "./component/Timer";
 //     </div>
 //   );
 // }
+//
+// function App() {
+//   const [showTimer, setshowTimer] = useState(false);
+//   return (
+//     <div>
+//       {showTimer && <Timer />}
+//       <button
+//         onClick={() => {
+//           setshowTimer(!showTimer);
+//         }}
+//       >
+//         Toggle Timer
+//       </button>
+//     </div>
+//   );
+// }
+//----------------------------------------------------------------
 
+//----------*/ useRef 연습 /*------
+//
 function App() {
-  const [showTimer, setshowTimer] = useState(false);
+  // const [count, setCount] = useState(0);
+  // const countRef = useRef(0);
+  // console.log("렌더링");
+  // const increaseCountState = () => {
+  //   setCount(count + 1);
+  // };
+  // const increaseCountRef = () => {
+  //   countRef.current = countRef.current + 1;
+  //   console.log("Ref: ", countRef.current);
+  // };
+  // const [renderer, setRenderer] = useState(0);
+  // const countRef = useRef(0);
+  // let countVar = 0;
+
+  // const doRendering = () => {
+  //   setRenderer(renderer + 1);
+  // };
+  // const increaseRef = () => {
+  //   countRef.current = countRef.current + 1;
+  //   console.log("Ref: ", countRef.current);
+  // };
+  // const increaseVar = () => {
+  //   countVar = countVar + 1;
+  //   console.log("Var: ", countVar);
+  // };
+  // const [count, setCount] = useState(1);
+  // const renderCount = useRef(1);
+
+  // useEffect(() => {
+  //   renderCount.current = renderCount.current + 1;
+  //   console.log("렌더링 수: ", renderCount.current);
+  // });
+  const inputRef = useRef();
+
+  useEffect(() => {
+    // console.log(inputRef);
+    inputRef.current.focus();
+  }, []);
+
+  const login = () => {
+    alert(`환영합니다 ${inputRef.current.value}`);
+    inputRef.current.focus();
+  };
   return (
     <div>
-      {showTimer && <Timer />}
+      {/* <p>State: {count}</p>
+      <p>Ref: {countRef.current}</p>
+      <button onClick={increaseCountState}>State 올려</button>
+      <button onClick={increaseCountRef}>Ref 올려</button> */}
+      {/* <p>Ref: {countRef.current}</p>
+      <p>Var: {countVar}</p>
+      <button onClick={doRendering}>렌더!</button>
+      <button onClick={increaseRef}>Ref 올려</button>
+      <button onClick={increaseVar}>Var 올려</button> */}
+      {/* <p>Count: {count}</p>
       <button
         onClick={() => {
-          setshowTimer(!showTimer);
+          setCount(count + 1);
         }}
       >
-        Toggle Timer
-      </button>
+        올려
+      </button> */}
+      <input ref={inputRef} type="text" placeholder="username" />
+      <button onClick={login}>로그인</button>
     </div>
   );
 }
