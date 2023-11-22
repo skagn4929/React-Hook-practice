@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import Timer from "./component/Timer";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 // ----------*/ useState 연습 /*------
 //
@@ -106,73 +105,114 @@ import Timer from "./component/Timer";
 
 //----------*/ useRef 연습 /*------
 //
+// function App() {
+// const [count, setCount] = useState(0);
+// const countRef = useRef(0);
+// console.log("렌더링");
+// const increaseCountState = () => {
+//   setCount(count + 1);
+// };
+// const increaseCountRef = () => {
+//   countRef.current = countRef.current + 1;
+//   console.log("Ref: ", countRef.current);
+// };
+// const [renderer, setRenderer] = useState(0);
+// const countRef = useRef(0);
+// let countVar = 0;
+
+// const doRendering = () => {
+//   setRenderer(renderer + 1);
+// };
+// const increaseRef = () => {
+//   countRef.current = countRef.current + 1;
+//   console.log("Ref: ", countRef.current);
+// };
+// const increaseVar = () => {
+//   countVar = countVar + 1;
+//   console.log("Var: ", countVar);
+// };
+// const [count, setCount] = useState(1);
+// const renderCount = useRef(1);
+
+// useEffect(() => {
+//   renderCount.current = renderCount.current + 1;
+//   console.log("렌더링 수: ", renderCount.current);
+// });
+// const inputRef = useRef();
+
+// useEffect(() => {
+// console.log(inputRef);
+// inputRef.current.focus();
+// }, []);
+
+// const login = () => {
+//   alert(`환영합니다 ${inputRef.current.value}`);
+//   inputRef.current.focus();
+// };
+//   return (
+//     <div>
+//       {/* <p>State: {count}</p>
+//       <p>Ref: {countRef.current}</p>
+//       <button onClick={increaseCountState}>State 올려</button>
+//       <button onClick={increaseCountRef}>Ref 올려</button> */}
+//       {/* <p>Ref: {countRef.current}</p>
+//       <p>Var: {countVar}</p>
+//       <button onClick={doRendering}>렌더!</button>
+//       <button onClick={increaseRef}>Ref 올려</button>
+//       <button onClick={increaseVar}>Var 올려</button> */}
+//       {/* <p>Count: {count}</p>
+//       <button
+//         onClick={() => {
+//           setCount(count + 1);
+//         }}
+//       >
+//         올려
+//       </button> */}
+//       <input ref={inputRef} type="text" placeholder="username" />
+//       <button onClick={login}>로그인</button>
+//     </div>
+//   );
+// }
+//----------------------------------------------------------------
+
+//----------*/ useMemo 연습 /*------
+const hardCalculate = (number) => {
+  console.log("어려운 계산");
+  for (let i = 0; i < 999999999; i++) {} // 생각하는 시간
+  return number + 10000;
+};
+const easyCalculate = (number) => {
+  console.log("쉬운 계산");
+  return number + 1;
+};
+
 function App() {
-  // const [count, setCount] = useState(0);
-  // const countRef = useRef(0);
-  // console.log("렌더링");
-  // const increaseCountState = () => {
-  //   setCount(count + 1);
-  // };
-  // const increaseCountRef = () => {
-  //   countRef.current = countRef.current + 1;
-  //   console.log("Ref: ", countRef.current);
-  // };
-  // const [renderer, setRenderer] = useState(0);
-  // const countRef = useRef(0);
-  // let countVar = 0;
+  const [hardNumber, setHardNumber] = useState(1);
+  const [easyNumber, setEasyNumber] = useState(1);
+  // const hardSum = hardCalculate(hardNumber);
+  const hardSum = useMemo(() => {
+    return hardCalculate(hardNumber);
+  }, [hardNumber]);
+  const easySum = easyCalculate(easyNumber);
 
-  // const doRendering = () => {
-  //   setRenderer(renderer + 1);
-  // };
-  // const increaseRef = () => {
-  //   countRef.current = countRef.current + 1;
-  //   console.log("Ref: ", countRef.current);
-  // };
-  // const increaseVar = () => {
-  //   countVar = countVar + 1;
-  //   console.log("Var: ", countVar);
-  // };
-  // const [count, setCount] = useState(1);
-  // const renderCount = useRef(1);
-
-  // useEffect(() => {
-  //   renderCount.current = renderCount.current + 1;
-  //   console.log("렌더링 수: ", renderCount.current);
-  // });
-  const inputRef = useRef();
-
-  useEffect(() => {
-    // console.log(inputRef);
-    inputRef.current.focus();
-  }, []);
-
-  const login = () => {
-    alert(`환영합니다 ${inputRef.current.value}`);
-    inputRef.current.focus();
-  };
   return (
     <div>
-      {/* <p>State: {count}</p>
-      <p>Ref: {countRef.current}</p>
-      <button onClick={increaseCountState}>State 올려</button>
-      <button onClick={increaseCountRef}>Ref 올려</button> */}
-      {/* <p>Ref: {countRef.current}</p>
-      <p>Var: {countVar}</p>
-      <button onClick={doRendering}>렌더!</button>
-      <button onClick={increaseRef}>Ref 올려</button>
-      <button onClick={increaseVar}>Var 올려</button> */}
-      {/* <p>Count: {count}</p>
-      <button
-        onClick={() => {
-          setCount(count + 1);
-        }}
-      >
-        올려
-      </button> */}
-      <input ref={inputRef} type="text" placeholder="username" />
-      <button onClick={login}>로그인</button>
+      <h3>어려운 계산기</h3>
+      <input
+        type="number"
+        value={hardNumber}
+        onChange={(e) => setHardNumber(parseInt(e.target.value))}
+      />
+      <span> + 10000 = {hardSum}</span>
+
+      <h3>쉬운 계산기</h3>
+      <input
+        type="number"
+        value={easyNumber}
+        onChange={(e) => setEasyNumber(parseInt(e.target.value))}
+      />
+      <span> + 1 = {easySum}</span>
     </div>
   );
 }
-
 export default App;
