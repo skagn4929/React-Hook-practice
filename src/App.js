@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 
 // ----------*/ useState 연습 /*------
 //
@@ -176,42 +176,73 @@ import { useState, useEffect, useRef, useMemo } from "react";
 //----------------------------------------------------------------
 
 //----------*/ useMemo 연습 /*------
-const hardCalculate = (number) => {
-  console.log("어려운 계산");
-  for (let i = 0; i < 999999999; i++) {} // 생각하는 시간
-  return number + 10000;
-};
-const easyCalculate = (number) => {
-  console.log("쉬운 계산");
-  return number + 1;
-};
+// const hardCalculate = (number) => {
+//   console.log("어려운 계산");
+//   for (let i = 0; i < 999999999; i++) {} // 생각하는 시간
+//   return number + 10000;
+// };
+// const easyCalculate = (number) => {
+//   console.log("쉬운 계산");
+//   return number + 1;
+// };
 
+// function App() {
+//   const [hardNumber, setHardNumber] = useState(1);
+//   const [easyNumber, setEasyNumber] = useState(1);
+//   // const hardSum = hardCalculate(hardNumber);
+//   const hardSum = useMemo(() => {
+//     return hardCalculate(hardNumber);
+//   }, [hardNumber]);
+//   const easySum = easyCalculate(easyNumber);
+
+//   return (
+//     <div>
+//       <h3>어려운 계산기</h3>
+//       <input
+//         type="number"
+//         value={hardNumber}
+//         onChange={(e) => setHardNumber(parseInt(e.target.value))}
+//       />
+//       <span> + 10000 = {hardSum}</span>
+
+//       <h3>쉬운 계산기</h3>
+//       <input
+//         type="number"
+//         value={easyNumber}
+//         onChange={(e) => setEasyNumber(parseInt(e.target.value))}
+//       />
+//       <span> + 1 = {easySum}</span>
+//     </div>
+//   );
+// }
+
+//----------*/ useCallback 연습 /*------
 function App() {
-  const [hardNumber, setHardNumber] = useState(1);
-  const [easyNumber, setEasyNumber] = useState(1);
-  // const hardSum = hardCalculate(hardNumber);
-  const hardSum = useMemo(() => {
-    return hardCalculate(hardNumber);
-  }, [hardNumber]);
-  const easySum = easyCalculate(easyNumber);
-
+  const [number, setNumber] = useState(0);
+  const [toggle, setToggle] = useState(true);
+  const someFunction = useCallback(() => {
+    console.log(`someFunc: number: ${number}`);
+    return;
+  }, [number]);
+  useEffect(() => {
+    console.log("someFunction이 변경되었습니다.");
+  }, [someFunction]);
   return (
     <div>
-      <h3>어려운 계산기</h3>
       <input
         type="number"
-        value={hardNumber}
-        onChange={(e) => setHardNumber(parseInt(e.target.value))}
+        value={number}
+        onChange={(e) => setNumber(e.target.value)}
       />
-      <span> + 10000 = {hardSum}</span>
-
-      <h3>쉬운 계산기</h3>
-      <input
-        type="number"
-        value={easyNumber}
-        onChange={(e) => setEasyNumber(parseInt(e.target.value))}
-      />
-      <span> + 1 = {easySum}</span>
+      <button
+        onClick={() => {
+          setToggle(!toggle);
+        }}
+      >
+        {toggle.toString()}
+      </button>
+      <br />
+      <button onClick={someFunction}>Call someFunc</button>
     </div>
   );
 }
